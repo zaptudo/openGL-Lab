@@ -117,7 +117,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="glad.c" />
-    <ClCompile Include="lab01.cpp" />
+    <ClCompile Include="Lab02.cpp" />
+    <ClCompile Include="Textura.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="shader_s.h" />
+    <ClInclude Include="stb_image.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="3.3.shader.fs.hlsl">
+      <FileType>Document</FileType>
+    </Text>
+    <Text Include="3.3.shader.vs.hlsl">
+      <FileType>Document</FileType>
+    </Text>
+    <Text Include="4.1.texture.fs.hlsl">
+      <FileType>Document</FileType>
+    </Text>
+    <Text Include="4.1.texture.vs.hlsl">
+      <FileType>Document</FileType>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

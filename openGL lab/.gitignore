@@ -1,0 +1,7 @@
+**/[Dd]ebug/
+*.suo
+*.exe
+*.ilk
+*.pdb
+*.db
+*.opendb
