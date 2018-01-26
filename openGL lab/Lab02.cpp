@@ -1,6 +1,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "stb_image.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "shader_s.h"
 
@@ -17,7 +20,7 @@ const unsigned int SCR_HEIGHT = 600;
 
 float offsetX = 0;
 float offsetY = 0;
-float mix = 0.2f;
+float mix = 1.0f;
 
 
 int main()
@@ -135,6 +138,9 @@ int main()
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+
+
+
 	while (!glfwWindowShouldClose(window))
 	{
 
@@ -150,11 +156,26 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, texture2);
 
 		shader.use();
+
+		
 		shader.setFloat("offsetX", offsetX);
 		shader.setFloat("offsetY", offsetY);
 		shader.setFloat("mix", mix);
-		glBindVertexArray(VAO);
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
+		glm::mat4 trans;
+		unsigned int transformLoc = glGetUniformLocation(shader.ID, "transform");
+
+		//trans = glm::scale(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+		//trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
+		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		//glBindVertexArray(VAO);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+		trans = glm::mat4();
+		float escala = abs(sin(glfwGetTime()));
+		trans = glm::scale(trans, glm::vec3(escala, escala, 1.0f));
+		//trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, 1.0f));
+		trans = glm::rotate(trans, (float)glfwGetTime() * 3, glm::vec3(0.0, 0.0, 1.0));
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);

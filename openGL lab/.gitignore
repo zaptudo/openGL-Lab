@@ -1,7 +1,9 @@
 **/[Dd]ebug/
-*.suo
-*.exe
-*.ilk
-*.pdb
-*.db
-*.opendb
+**/*.suo
+**/*.exe
+**/*.ilk
+**/*.pdb
+**/*.db
+**/*.opendb
+**/*.tlog
+**/*.obj
