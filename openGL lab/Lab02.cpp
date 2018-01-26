@@ -171,10 +171,10 @@ int main()
 		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		trans = glm::mat4();
-		float escala = abs(sin(glfwGetTime()));
-		trans = glm::scale(trans, glm::vec3(escala, escala, 1.0f));
-		//trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, 1.0f));
-		trans = glm::rotate(trans, (float)glfwGetTime() * 3, glm::vec3(0.0, 0.0, 1.0));
+		float escala = abs(cos(glfwGetTime()));
+		trans = glm::scale(trans, glm::vec3(escala * 2, escala * 2, 1.0f));
+		trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, 1.0f));
+		trans = glm::rotate(trans, escala * 6.3f, glm::vec3(0.0, 0.0, 1.0));
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
