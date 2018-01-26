@@ -157,25 +157,31 @@ int main()
 
 		shader.use();
 
-		
-		shader.setFloat("offsetX", offsetX);
-		shader.setFloat("offsetY", offsetY);
+
 		shader.setFloat("mix", mix);
-		glm::mat4 trans;
-		unsigned int transformLoc = glGetUniformLocation(shader.ID, "transform");
+		
+		//float escala = abs(cos(glfwGetTime()));
+		//model = glm::scale(model, glm::vec3(escala * 2, escala * 2, 1.0f));
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::mat4 model;
 
-		//trans = glm::scale(trans, glm::vec3(0.5f, -0.5f, 0.0f));
-		//trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
-		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-		//glBindVertexArray(VAO);
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glm::mat4 scale;
+		scale = glm::scale(model, glm::vec3(abs(sin(glfwGetTime()) * 2), abs(sin(glfwGetTime()) * 2), 1.0f));
+		model = glm::rotate(model, glm::radians((float) /*sin*/(glfwGetTime()) * 360), glm::vec3(1.0f, 1.0f, 1.0f));
 
-		trans = glm::mat4();
-		float escala = abs(cos(glfwGetTime()));
-		trans = glm::scale(trans, glm::vec3(escala * 2, escala * 2, 1.0f));
-		trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, 1.0f));
-		trans = glm::rotate(trans, escala * 6.3f, glm::vec3(0.0, 0.0, 1.0));
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		glm::mat4 view;
+		view = glm::translate(view, glm::vec3(offsetX, offsetY, -3.0f));
+		
+
+		glm::mat4 projection;
+		projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+
+		unsigned int modelLoc = glGetUniformLocation(shader.ID, "model");
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model * scale));
+		unsigned int viewLoc = glGetUniformLocation(shader.ID, "view");
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		unsigned int projectionLoc = glGetUniformLocation(shader.ID, "projection");
+		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
