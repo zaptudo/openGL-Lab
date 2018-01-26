@@ -21,7 +21,7 @@ const unsigned int SCR_HEIGHT = 600;
 float offsetX = 0.0f;
 float offsetY = -0.3f;
 float anguloX = 0.0f;
-float anguloY = 0.0f;
+float anguloY = -20.0f;
 float mix = 0.0f;
 
 
