@@ -18,8 +18,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-float offsetX = 0;
-float offsetY = -3.0f;
+float offsetX = 0.0f;
+float offsetY = -0.3f;
+float anguloX = 0.0f;
+float anguloY = 0.0f;
 float mix = 0.0f;
 
 
@@ -184,14 +186,18 @@ int main()
 		shader.setFloat("mix", mix);
 
 		glm::mat4 model;
-		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+		model = glm::rotate(model, 0.0f, glm::vec3(0.5f, 1.0f, 0.0f));
 		unsigned int modelLoc = glGetUniformLocation(shader.ID, "model");
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-		glm::mat4 view;
-		view = glm::translate(view, glm::vec3(offsetX, 0.0f, offsetY));
+		glm::mat4 view1;
+		glm::mat4 view2;
+		glm::mat4 view3;
+		view1 = glm::translate(view1, glm::vec3(offsetX, 0.0f, offsetY));
+		view2 = glm::rotate(view2, glm::radians(anguloY), glm::vec3(0.0f, 1.0f, 0.0f));
+		view3 = glm::rotate(view3, glm::radians(anguloX), glm::vec3(1.0f, 0.0f, 0.0f));
 		unsigned int viewLoc = glGetUniformLocation(shader.ID, "view");
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view2 * view3 * view1));
 
 		glm::mat4 projection;
 		projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
@@ -233,27 +239,27 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	if (key == GLFW_KEY_RIGHT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 
-		offsetX = offsetX + 0.01f;
+		offsetX = offsetX - 0.1f;
 	}
 
 	if (key == GLFW_KEY_LEFT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 
-		offsetX = offsetX - 0.01f;
+		offsetX = offsetX + 0.1f;
 	}
 
 	if (key == GLFW_KEY_UP && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 
-		offsetY = offsetY + 0.01f;
+		offsetY = offsetY + 0.1f;
 	}
 
 	if (key == GLFW_KEY_DOWN && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 
-		offsetY = offsetY - 0.01f;
+		offsetY = offsetY - 0.1f;
 	}
 
 	if (key == GLFW_KEY_KP_ADD && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 
-		mix += 0.01f;
+		mix -= 0.01f;
 		if (mix >= 1.0f) {
 			mix = 1.0f;
 		}
@@ -261,10 +267,33 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	if (key == GLFW_KEY_KP_SUBTRACT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
 
-		mix -= 0.01f;
+		mix += 0.01f;
 		if (mix <= 0.0f) {
 			mix = 0.0f;
 		}
 		
 	}
+
+	if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+
+		anguloY = anguloY - 3.0f;
+	}
+
+	if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+
+		anguloY = anguloY + 3.0f;
+
+	}
+
+	if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+
+		anguloX = anguloX + 3.0f;
+	}
+
+	if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+
+		anguloX = anguloX - 3.0f;
+
+	}
+
 }
