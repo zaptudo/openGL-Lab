@@ -1,2 +1,7 @@
 Debug
 Debug/openGL lab.tlog
+*.obj
+*.tlog
+*.log
+*.idb
+*.pdb
